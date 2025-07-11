@@ -210,7 +210,7 @@ Através do seguinte link, é possível **comprovar visualmente** o funcionament
 - Conexão com banco remoto
 - Armazenamento e exibição de cronograma (PDF)
 
-🔗 [INSIRA AQUI O LINK DA APLICAÇÃO OU HOSTING CASO TENHA]
+🔗 [https://sistemaeventos.onrender.com/] como o serviço é gratuito pode demorar 50 segundos para compilar.
 
 ---
 
