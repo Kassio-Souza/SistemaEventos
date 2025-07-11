@@ -222,4 +222,4 @@ Através do seguinte link, é possível **comprovar visualmente** o funcionament
 
 ---
 
-> Desenvolvido com responsabilidade acadêmica, atenção à integridade de dados e foco em usabilidade e escalabilidade.
+
