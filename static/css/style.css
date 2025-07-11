@@ -1,0 +1,16 @@
+body {
+    background-color: #f8f9fa;    
+    font-family: Arial, sans-serif; 
+}
+
+.card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,.05);
+}
+
+.navbar-nav .btn {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+.navbar-nav .btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}

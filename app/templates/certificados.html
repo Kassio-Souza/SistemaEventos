@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Consulta de Certificados{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <div class="card shadow p-4">
+            <h3 class="text-center mb-3">Verificação de Certificados</h3>
+
+            <form method="post" action="{{ url_for('certificados_bp.certificados') }}">
+                <div class="mb-3">
+                    <label for="cpf" class="form-label">Digite seu CPF:</label>
+                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="11" required placeholder="Somente números" value="{{ cpf if cpf }}">
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Verificar Certificados</button>
+                </div>
+            </form>
+
+            {% if mensagem %}
+                <div class="alert alert-info mt-3">{{ mensagem }}</div>
+            {% endif %}
+
+            {% if certificados %}
+                <hr>
+                <h5 class="mt-4">Certificados Disponíveis:</h5>
+                <ul class="list-group">
+                    {% for cert in certificados %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ cert[1] }}</strong> – {{ cert[2] }}h<br>
+                                <small>Emitido em: {{ cert[3].strftime('%d/%m/%Y') }}</small><br>
+                                <small>Autenticação: {{ cert[4] }}</small>
+                            </div>
+                            <a href="{{ url_for('visualizar_certificado', id_certificado=cert[0]) }}" target="_blank" class="btn btn-sm btn-success">Ver</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% elif certificados is defined %}
+                <p class="text-muted mt-3">Nenhum certificado disponível para este CPF.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

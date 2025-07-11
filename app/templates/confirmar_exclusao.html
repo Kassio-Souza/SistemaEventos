@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Confirmação de Exclusão{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-warning text-center">
+        <h4>Certificados Gerados Encontrados</h4>
+        <p>Este evento possui certificados emitidos. Deseja excluir mesmo assim?</p>
+
+        <form method="POST" action="{{ url_for('evento_bp.evento_excluir', id_evento=id_evento) }}">
+            <input type="hidden" name="forcar" value="true">
+            <button type="submit" class="btn btn-danger">Excluir Mesmo Assim</button>
+            <a href="{{ url_for('evento_bp.eventos_lista') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

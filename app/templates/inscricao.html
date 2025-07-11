@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Inscrições{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-3">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-lg p-4 mb-4">
+            <h2 class="text-center mb-4">
+                {% if inscricao_para_editar %}
+                    Editar Inscrição (ID: {{ inscricao_para_editar[0] }})
+                {% else %}
+                    Realizar Nova Inscrição
+                {% endif %}
+            </h2>
+            
+            <form method="POST" action="{{ url_for('inscricao_bp.inscricao') }}">
+                {% if inscricao_para_editar %}
+                <input type="hidden" name="atualizar_id" value="{{ inscricao_para_editar[0] }}">
+                {% endif %}
+
+                <div class="mb-3">
+                    <label for="pessoa_id" class="form-label">Pessoa:</label>
+                    <select class="form-select" id="pessoa_id" name="pessoa_id" required>
+                        <option value="" {% if not inscricao_para_editar %}selected{% endif %} disabled>Selecione uma Pessoa:</option>
+                        {% for pessoa_item in pessoas %}
+                        <option value="{{ pessoa_item[0] }}" 
+                                {% if inscricao_para_editar and pessoa_item[0] == inscricao_para_editar[1] %}selected{% endif %}>
+                            {{ pessoa_item[1] }} ({{ pessoa_item[0] }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="evento_id" class="form-label">Evento:</label>
+                    <select class="form-select" id="evento_id" name="evento_id" required>
+                        <option value="" {% if not inscricao_para_editar %}selected{% endif %} disabled>Selecione um Evento:</option>
+                        {% for evento_item in eventos %}
+                        <style>
+                            .opcao-vermelha {
+                                color: green;
+                            }
+                        </style>
+
+                        <option value="{{ evento_item[0] }}"
+                            class="{% if evento_item[3]|lower == 'ativo' %}opcao-vermelha{% endif %}"
+                            {% if inscricao_para_editar and evento_item[0] == inscricao_para_editar[2] %}selected{% endif %}>
+                            {{ evento_item[1] }} ({{ evento_item[3] }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                {% if inscricao_para_editar %}
+                <div class="mb-3">
+                    <label for="status_inscricao" class="form-label">Status da Inscrição:</label>
+                    <select class="form-select" id="status_inscricao" name="status_inscricao" required>
+                        <option value="confirmado" {% if inscricao_para_editar[3] == 'confirmado' %}selected{% endif %}>Confirmado</option>
+                        <option value="cancelado" {% if inscricao_para_editar[3] == 'cancelado' %}selected{% endif %}>Cancelado</option>
+                        <option value="pendente" {% if inscricao_para_editar[3] == 'pendente' %}selected{% endif %}>Pendente</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="status_checkin" class="form-label">Check-in Realizado:</label>
+                    <select class="form-select" id="status_checkin" name="status_checkin" required>
+                        <option value="false" {% if not inscricao_para_editar[4] %}selected{% endif %}>Não</option>
+                        <option value="true" {% if inscricao_para_editar[4] %}selected{% endif %}>Sim</option>
+                    </select>
+                </div>
+                {% endif %}
+
+                <button type="submit" class="btn btn-primary w-100 mt-3">
+                    {% if inscricao_para_editar %}Salvar Alterações{% else %}Inscrever Pessoa no Evento{% endif %}
+                </button>
+                {% if inscricao_para_editar %}
+                <a href="{{ url_for('inscricao_bp.inscricao') }}" class="btn btn-secondary w-100 mt-2">Cancelar Edição / Nova Inscrição</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-10">
+        <h3 class="text-center mb-3">Inscrições Realizadas</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>ID Inscrição</th>
+                        <th>Pessoa Inscrita</th>
+                        <th>Evento</th>
+                        <th>Status</th>
+                        <th>Check-in</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if inscricoes %}
+                        {% for inscricao_item in inscricoes %}
+                        <tr>
+                            <td>{{ inscricao_item[0] }}</td>
+                            <td>{{ inscricao_item[1] }}</td>
+                            <td>{{ inscricao_item[2] }}</td>
+                            <td>{{ inscricao_item[3] }}</td>
+                            <td>{{ "Sim" if inscricao_item[4] else "Não" }}</td>
+                            <td>
+                                {% if inscricao_item[7]|lower == 'ativo' %}
+                                    <a href="{{ url_for('inscricao_bp.inscricao_editar', id_inscricao=inscricao_item[0]) }}" class="btn btn-sm btn-info me-1">Editar</a>
+                                {% endif %}
+                                
+                                <form action="{{ url_for('inscricao_bp.inscricao') }}" method="POST" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir esta inscrição?');">
+                                    <input type="hidden" name="excluir_id" value="{{ inscricao_item[0] }}">
+                                    <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center">Nenhuma inscrição realizada ainda.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
