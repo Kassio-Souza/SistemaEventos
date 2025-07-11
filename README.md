@@ -1,6 +1,6 @@
 # Sistema de Gerenciamento de Eventos Universitários - UnB
 
-Este sistema foi desenvolvido por **Ana Paula Gomes de Matos** **Kassio Gândara de Souza**,**Kaillany Perreira Santos** mais dois integrantes, como parte da disciplina de Banco de Dados, com o objetivo de gerenciar eventos acadêmicos da Universidade de Brasília (UnB). 
+Este sistema foi desenvolvido por **Ana Paula Gomes de Matos**, **Kassio Gândara de Souza**,**Kaillany Perreira Santos** mais dois integrantes, como parte da disciplina de Banco de Dados, com o objetivo de gerenciar eventos acadêmicos da Universidade de Brasília (UnB). 
 A aplicação permite o cadastro e a visualização de eventos, pessoas e inscrições, com foco em integridade de dados, escalabilidade e possibilidade de análise de métricas futuras.
 
 ---
